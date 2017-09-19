@@ -1,0 +1,199 @@
+#ifndef MOUSE_CLASS
+#define MOUSE_CLASS
+#include <iostream>
+#include "mazeImplementation.h"
+using namespace std;
+
+class mouse {
+public:
+	mouse()
+	{
+		currentPosition.setX(0);
+		currentPosition.setY(4);
+		maze.print();
+		cout << endl;
+		storePosition();
+	}
+
+	void storeAmountOfMoves()
+	{
+		amountOfMoves = 0;
+
+		if (checkLeft())
+		{
+			amountOfMoves += 1;
+			possibleDirection = 'w';
+		}
+		if (checkDown())
+		{
+			amountOfMoves += 1;
+			possibleDirection = 's';
+		}
+		if (checkRight())
+		{
+			amountOfMoves += 1;
+			possibleDirection = 'e';
+		}
+		if (checkUp())
+		{
+			amountOfMoves += 1;
+			possibleDirection = 'n';
+		}
+
+		moveStack.push(amountOfMoves);
+	}
+	bool checkUp()
+	{
+		return (maze.checkPosition(currentPosition.getY() - 1, currentPosition.getX(), 0) && checkIfUpVisited());
+	}
+	bool checkRight()
+	{
+		return ((maze.checkPosition(currentPosition.getY(), currentPosition.getX() + 1, 0)) && checkIfRightVisited());
+	}
+	bool checkDown()
+	{
+		return (maze.checkPosition(currentPosition.getY() + 1, currentPosition.getX(), 0) && checkIfDownVisited());
+	}
+	bool checkLeft()
+	{
+		return (maze.checkPosition(currentPosition.getY(), currentPosition.getX() - 1, 0) && checkIfLeftVisited());
+	}
+
+	bool checkIfUpVisited()
+	{
+		point current = currentPosition;
+		current.sub_y();
+		return ((checkVisited(current)));
+	}
+	bool checkIfRightVisited()
+	{
+		point current = currentPosition;
+		current.add_x();
+		return ((checkVisited(current)));
+	}
+	bool checkIfDownVisited()
+	{
+		point current = currentPosition;
+		current.add_y();
+		return ((checkVisited(current)));
+	}
+	bool checkIfLeftVisited()
+	{
+		point current = currentPosition;
+		current.sub_x();
+		return ((checkVisited(current)));
+	}
+
+	void determineDirection()
+	{
+		if (possibleDirection == 'n')
+		{
+			up();
+		}
+		else if (possibleDirection == 'e')
+		{
+			right();
+		}
+		else if (possibleDirection == 's')
+		{
+			down();
+		}
+		else if (possibleDirection == 'w')
+		{
+			left();
+		}
+	}
+	void testAndSolve()
+	{
+		while (maze.checkEnd(currentPosition) == false)
+		{
+			storeAmountOfMoves();
+			if (amountOfMoves == 0)
+			{
+				backTrack();
+			}
+			else
+			{
+				determineDirection();
+			}
+		}
+		cout << endl;
+		maze.print();
+	}
+	void up()
+	{
+		maze.setPosition(currentPosition, 0);
+		currentPosition.sub_y();
+		maze.setPosition(currentPosition, 8);
+		storePosition();
+	}
+	void right()
+	{
+		maze.setPosition(currentPosition, 0);
+		currentPosition.add_x();
+		maze.setPosition(currentPosition, 8);
+		storePosition();
+	}
+	void down()
+	{
+		maze.setPosition(currentPosition, 0);
+		currentPosition.add_y();
+		maze.setPosition(currentPosition, 8);
+		storePosition();
+	}
+	void left()
+	{
+		maze.setPosition(currentPosition, 0);
+		currentPosition.sub_x();
+		maze.setPosition(currentPosition, 8);
+		storePosition();
+	}
+
+	void backTrack()
+	{
+		while ((moveStack.top() < 2)) 
+		{
+			maze.setPosition(currentPosition, 0);
+			currentPosition = pathStack.top();
+			currentPosition.print();
+			pathStack.pop();
+			moveStack.pop();
+		}
+	}
+
+	void storePosition()
+	{
+		pathStack.push(currentPosition);
+		last.push_back(currentPosition);
+		currentPosition.print();
+	}
+	
+	bool checkVisited(point position)
+	{
+		if (last.empty() == false) 
+		{
+			for (int i = 0; i<last.size(); i++) 
+			{
+				if (position == last[i]) 
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		else 
+		{
+			return true;
+		}
+	}
+private:
+	stack<int> moveStack;
+	stack<point> pathStack;
+	vector<point> last;
+	point currentPosition;
+	mazeImplementation maze;
+	char possibleDirection;
+	int amountOfMoves = 0;
+};
+
+#endif

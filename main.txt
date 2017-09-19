@@ -1,0 +1,14 @@
+#include <iostream>
+#include <cstdlib>
+#include <stack>
+#include <vector>
+#include "mouseImplementation.h"
+
+using namespace std;
+
+int main()
+{
+	mouse myMouse;
+	myMouse.testAndSolve();
+	return 0;
+}

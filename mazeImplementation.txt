@@ -1,0 +1,66 @@
+#ifndef MAZE_IMPLEMENTATION
+#define MAZE_IMPLEMENTATION
+#include "point.h"
+#include <iostream>
+using namespace std;
+
+class mazeImplementation : public point {
+
+public:
+
+	bool checkPosition(int y, int x, int mazeItem)
+	{
+		return (maze[y][x] == mazeItem);
+	}
+
+	bool checkEnd(point current)
+	{
+		current.add_x();
+		return (checkPosition(current.getY(), current.getX(), 9));
+	}
+
+	void setPosition(point current, int mazeItem)
+	{
+		maze[current.getY()][current.getX()] = mazeItem;
+	}
+
+	void print()
+	{
+		for (int i = 0; i<row; i++) {
+			for (int j = 0; j<col; j++) {
+				cout << maze[i][j] << " ";
+			}
+			cout << endl;
+		}
+	}
+
+	int getRow()
+	{
+		return row;
+	}
+
+	int getCol()
+	{
+		return col;
+	}
+
+private:
+	int row = 12, col = 29;
+	int maze[12][29] =
+	{
+		{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+		{ 1,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 },
+		{ 1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1 },
+		{ 1,0,0,0,0,0,1,1,1,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1,0,0,0,0,9 },
+		{ 8,0,1,1,1,1,1,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1 },
+		{ 1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1 },
+		{ 1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1 },
+		{ 1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
+		{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
+	};
+};
+
+#endif

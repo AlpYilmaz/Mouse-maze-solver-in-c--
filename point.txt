@@ -1,0 +1,66 @@
+#ifndef POINT_CLASS
+#define POINT_CLASS
+#include <iostream>
+using namespace std;
+class point {
+public:
+	point()
+	{
+		y = 0;
+		x = 0;
+	}
+	void setY(int yCoord)
+	{
+		y = yCoord;
+	}
+	void setX(int xCoord)
+	{
+		x = xCoord;
+	}
+	int getY()
+	{
+		return y;
+	}
+	int getX()
+	{
+		return x;
+	}
+	void add_y()
+	{
+		y++;
+	}
+	void sub_y()
+	{
+		y--;
+	}
+	void add_x()
+	{
+		x++;
+	}
+	void sub_x()
+	{
+		x--;
+	}
+	void print()
+	{
+		cout << "Mouse position: (" << y << "," << " " << x << ")" << endl;
+	}
+	bool operator ==(const point& otherObject) const
+	{
+		return ((y == otherObject.y) && (x == otherObject.x));
+	}
+	bool operator !=(const point& otherObject) const
+	{
+		return ((y != otherObject.y) || (x != otherObject.x));
+	}
+	void operator =(const point& otherObject)
+	{
+		y = otherObject.y;
+		x = otherObject.x;
+	}
+private:
+	int y;
+	int x;
+};
+
+#endif
